@@ -1,14 +1,17 @@
+
 class Solution(object):
     def maxProduct(self, nums):
-        max_prod = min_prod = result = nums[0]
+        cs = nums[0]
+        mn = nums[0]
+        os = nums[0]
 
-        for n in nums[1:]:
-            if n < 0:
-                max_prod, min_prod = min_prod, max_prod
+        for i in range(1, len(nums)):
+            prev_cs = cs
+            prev_mn = mn
 
-            max_prod = max(n, max_prod * n)
-            min_prod = min(n, min_prod * n)
+            cs = max(nums[i], prev_cs * nums[i], prev_mn * nums[i])
+            mn = min(nums[i], prev_cs * nums[i], prev_mn * nums[i])
 
-            result = max(result, max_prod)
+            os = max(os, cs)
 
-        return result
+        return os
