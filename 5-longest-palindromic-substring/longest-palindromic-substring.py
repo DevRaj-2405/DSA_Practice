@@ -1,25 +1,26 @@
 class Solution(object):
     def longestPalindrome(self, s):
-        start=0
-        end=0
+        def expandAroundCenter(s,left,right):
+            substring=''
+            max_length=0
+            
+            while left >= 0 and right < len(s) and s[left] == s[right]:
+                if right-left+1 > max_length:
+                    max_length = right-left+1
+                    substring=s[left:right+1] #updating with the max_length
 
-        def expand(left,right):
-            while left>=0 and right < len(s) and s[left] == s[right]:
                 left-=1
                 right+=1
-            return left+1, right-1
-        
+            return substring
+        result=''
         for i in range(len(s)):
-            l1,r1=expand(i,i)
-            
-            l2,r2=expand(i,i+1)
+            odd=expandAroundCenter(s,i,i)
+            even=expandAroundCenter(s,i,i+1)
 
-            if r1-l1 > end-start:
-                start=l1
-                end=r1
+            if len(odd)>len(result):
+                result=odd
+            if len(even) > len(result):
+                result=even
+        return result
             
-            if r2-l2> end -start:
-                start=l2
-                end=r2
-        return s[start:end + 1]
-        
+                    
